@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="author" content="Innovation" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name='robots' content="all" />
         <title>Rock, Paper and Scissors</title>
       </Head>
       <Component {...pageProps} />
