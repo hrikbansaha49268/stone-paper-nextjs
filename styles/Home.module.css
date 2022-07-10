@@ -7,13 +7,13 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgb(255, 255, 193);
 }
 
 /* User choice portion style */
 .userChoice {
-  display: inline-block;
+  display: inline;
   text-align: center;
+  justify-content: flex-start;
   width: 15vw;
 }
 
@@ -23,7 +23,6 @@
   font-weight: lighter;
   color: rgb(150, 1, 1);
   margin-bottom: 3%;
-  transition: ease 0.1s all;
 }
 
 .btnDisabled {
@@ -88,10 +87,6 @@
   color: rgba(255, 255, 255, 0.664);
 }
 
-.userChoice p:hover {
-  font-size: 3.5rem;
-}
-
 /* User choice and score-board portion style */
 
 .lowerPart {
@@ -131,4 +126,32 @@
 
 .resBtn {
   margin-top: 2%;
+}
+
+@media screen and (max-width: 600px) {
+
+  .playButton,
+  .btnsDisabled button {
+    margin: 0.5% 0;
+  }
+
+  .userChoice p {
+    margin-top: 20px;
+  }
+
+  .userChoice {
+    width: 30%;
+  }
+
+  .btns button {
+    font-size: 2rem;
+  }
+
+  .lowerPart {
+    flex-direction: column;
+  }
+
+  .scoreBoard {
+    margin-right: 0;
+  }
 }
