@@ -1,8 +1,6 @@
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-
-// make a start play button
 
 export default function Home() {
 
@@ -17,87 +15,46 @@ export default function Home() {
   let [done, setDone] = useState(false);
   let [clicked, setClicked] = useState(false);
 
-
-  // x is player and y is computer
-  function winLogic(x, y) {
-    switch (true) {
-      case x == 'Rock' && y == 'Scissors':
-        setPlayerPoints(playerPoints + 1);
-        break;
-      case x == 'Scissors' && y == 'Rock':
-        setComPoints(comPoints + 1);
-        break;
-      case x == 'Paper' && y == 'Rock':
-        setPlayerPoints(playerPoints + 1);
-        break;
-      case x == 'Rock' && y == 'Paper':
-        setComPoints(comPoints + 1);
-        break;
-      case x == 'Paper' && y == 'Scissors':
-        setComPoints(comPoints + 1);
-        break;
-      case x == 'Scissors' && y == 'Paper':
-        setPlayerPoints(playerPoints + 1);
-        break;
-      case x == 'Paper' && y == 'Paper':
-        setComPoints(comPoints);
-        setPlayerPoints(playerPoints);
-        break;
-      case x == 'Scissors' && y == 'Scissors':
-        setComPoints(comPoints);
-        setPlayerPoints(playerPoints);
-        break;
-      case x == 'Rock' && y == 'Rock':
-        setComPoints(comPoints);
-        setPlayerPoints(playerPoints);
-        break;
-      default:
-        null;
-        break;
+  useEffect((x = userChoice, y = computerChoice) => {
+    if (x == 'Rock' && y == 'Scissors') {
+      setPlayerPoints(playerPoints + 1);
+    } else if (x == 'Scissors' && y == 'Rock') {
+      setComPoints(comPoints + 1);
+    } else if (x == 'Paper' && y == 'Rock') {
+      setPlayerPoints(playerPoints + 1);
+    } else if (x == 'Rock' && y == 'Paper') {
+      setComPoints(comPoints + 1);
+    } else if (x == 'Paper' && y == 'Scissors') {
+      setComPoints(comPoints + 1);
+    } else if (x == 'Scissors' && y == 'Paper') {
+      setPlayerPoints(playerPoints + 1);
+    } else {
+      setComPoints(comPoints);
+      setPlayerPoints(playerPoints);
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userChoice, computerChoice]);
+
 
   function playing() {
     setClicked(true);
     if (clicked) {
-      winLogic(userChoice, computerChoice);
       setComputerChoice(options[Math.floor(Math.random() * options.length)]);
     }
   }
 
-  function play() {
-    playing();
-    setDone(true);
-  }
-
-  function checkRes() {
-    if (comPoints > playerPoints) {
-      alert('Computer Wins! 😅');
-    } else if (comPoints < playerPoints) {
-      alert('You Win! 😄');
-    } else {
-      alert('Draw!!!');
-    }
-    router.reload(window.location.pathname);
-  }
-
-  const rock = () => {
-    setUserChoice('Rock');
-    playing();
-  }
-  const paper = () => {
-    setUserChoice('Paper');
-    playing();
-  }
-  const scissors = () => {
-    setUserChoice('Scissors');
+  const choiceWork = (inp) => {
+    setUserChoice(inp);
     playing();
   }
 
   return (
     <>
       <div className={styles.wholeBody}>
-        <button onClick={done ? () => { } : play}
+        <button onClick={done ? null : () => {
+          playing();
+          setDone(true);
+        }}
           className={done ? styles.btnDisabled : styles.playButton}>
           Let&apos;s Play
         </button>
@@ -105,9 +62,13 @@ export default function Home() {
         <div className={styles.userChoice}>
           <p>Your Choice:</p>
           <div className={done ? styles.btns : styles.btnsDisabled}>
-            <button id='Rock' onClick={!done ? () => { } : rock}>Rock</button>
-            <button id='Paper' onClick={!done ? () => { } : paper}>Paper</button>
-            <button id='Scissors' onClick={!done ? () => { } : scissors}>Scissors</button>
+            <button id='Rock' onClick={!done ? null : () => { choiceWork('Rock') }}>
+              Rock</button>
+            <button id='Paper' onClick={!done ? null : () => { choiceWork('Paper') }}>
+              Paper</button>
+            <button id='Scissors'
+              onClick={!done ? null : () => { choiceWork('Scissors') }}>
+              Scissors</button>
           </div>
         </div>
         {/* This is the user choice portion */}
@@ -145,9 +106,9 @@ export default function Home() {
           </div>
           {/* This is the Choice display option section */}
         </div>
-        <button onClick={checkRes}
+        <button onClick={() => { router.reload(window.location.pathname) }}
           className={styles.resBtn}>
-          Check Results
+          Restart
         </button>
       </div>
     </>
